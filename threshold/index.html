@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#050708">
+<meta name="description" content="العتبة — لعبة ملاحظة ورعب نفسي في ممر مترو مهجور. THRESHOLD — an observation horror game.">
+<title>العتبة · THRESHOLD</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23050708'/%3E%3Cpath d='M18 54V12h28v42' fill='none' stroke='%23d2a008' stroke-width='4'/%3E%3Cpath d='M10 54h44' stroke='%23e8ece9' stroke-width='4'/%3E%3C/svg%3E">
+</head>
+<body>
+<canvas id="view"></canvas>
+<div id="veil"></div>
+
+<section id="loading" class="screen on">
+  <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><path class="frame" d="M18 54V12h28v42" /><path class="slit" d="M32 16v36" /><path class="sill" d="M8 54h48" /></svg>
+  <h1 class="brand"><span>العتبة</span><small>THRESHOLD</small></h1>
+  <div class="bar"><i id="bar"></i></div>
+  <p class="tiny"><span data-i18n="loading">جارٍ التحميل</span> <b id="pct">0%</b></p>
+</section>
+
+<section id="title" class="screen">
+  <h1 class="brand big"><span>العتبة</span><small>THRESHOLD</small></h1>
+  <button id="press" class="press" data-i18n="press">اضغط للبدء</button>
+  <p class="tiny" data-i18n="headphones">يُفضَّل استخدام السماعات</p>
+</section>
+
+<section id="menu" class="screen">
+  <header><h1 class="brand"><span>العتبة</span><small>THRESHOLD</small></h1></header>
+  <nav id="menuNav">
+    <button data-act="continue" hidden><em>٠٠</em><span data-i18n="cont">متابعة</span><i id="contN"></i></button>
+    <button data-act="start"><em>٠١</em><span data-i18n="start">ابدأ</span></button>
+    <button data-act="settings"><em>٠٢</em><span data-i18n="settings">الإعدادات</span></button>
+    <button data-act="anomalies"><em>٠٣</em><span data-i18n="anomalies">الشذوذات المكتشفة</span><i id="foundN"></i></button>
+    <button data-act="exit"><em>٠٤</em><span data-i18n="exit">خروج</span></button>
+  </nav>
+  <footer class="tiny" id="menuFoot"></footer>
+</section>
+
+<section id="settings" class="screen panel">
+  <div class="sheet">
+    <h2 data-i18n="settings">الإعدادات</h2>
+    <label><span data-i18n="quality">الجودة</span>
+      <div class="seg" id="setQuality"><button data-v="auto" data-i18n="auto">تلقائي</button><button data-v="low" data-i18n="low">منخفضة</button><button data-v="medium" data-i18n="medium">متوسطة</button><button data-v="high" data-i18n="high">عالية</button></div></label>
+    <label><span data-i18n="volume">الصوت</span><input id="setVolume" type="range" min="0" max="1" step="0.01"></label>
+    <label><span data-i18n="sens">حساسية النظر</span><input id="setSens" type="range" min="0.3" max="2.5" step="0.05"></label>
+    <label><span data-i18n="lang">اللغة</span>
+      <div class="seg" id="setLang"><button data-v="ar">العربية</button><button data-v="en">English</button></div></label>
+    <button class="ghost" data-act="back" data-i18n="back">رجوع</button>
+  </div>
+</section>
+
+<section id="anomalies" class="screen panel">
+  <div class="sheet wide">
+    <h2><span data-i18n="anomalies">الشذوذات المكتشفة</span> <b id="foundN2"></b></h2>
+    <ul id="anomList"></ul>
+    <p class="tiny" id="secretLine"></p>
+    <button class="ghost" data-act="back" data-i18n="back">رجوع</button>
+  </div>
+</section>
+
+<section id="pause" class="screen panel">
+  <div class="sheet narrow">
+    <h2 data-i18n="paused">إيقاف مؤقت</h2>
+    <p class="tiny" id="pauseInfo"></p>
+    <button class="row" data-act="resume" data-i18n="resume">متابعة اللعب</button>
+    <button class="row" data-act="settings" data-i18n="settings">الإعدادات</button>
+    <button class="row" data-act="menu" data-i18n="toMenu">القائمة الرئيسية</button>
+  </div>
+</section>
+
+<section id="intro" class="screen"><p id="introLine"></p></section>
+
+<section id="ending" class="screen">
+  <h2 id="endTitle"></h2><p id="endText"></p>
+  <dl id="endStats"></dl>
+  <button class="ghost" data-act="menu" data-i18n="toMenu">القائمة الرئيسية</button>
+</section>
+
+<section id="bye" class="screen"><p data-i18n="bye">يمكنك إغلاق هذه الصفحة الآن.</p><button class="ghost" data-act="menu" data-i18n="byeBack">عودة</button></section>
+
+<div id="hud">
+  <div id="touch"><div class="stick-base"></div><div class="stick-knob"></div></div>
+  <button id="pauseBtn" aria-label="pause"><i></i><i></i></button>
+  <div id="hint"></div>
+  <div id="toast"><small data-i18n="found">شذوذ جديد مُسجَّل</small><b id="toastName"></b></div>
+</div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

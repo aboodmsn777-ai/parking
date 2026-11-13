@@ -1,0 +1,11 @@
+import { createRequire } from 'module'; const { chromium } = createRequire(import.meta.url)(process.env.PWG + '/playwright');
+const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const page = await (await browser.newContext({ viewport: { width: 480, height: 270 } })).newPage();
+page.on('pageerror', (e) => console.log('[pageerror]', e.message));
+await page.goto('http://127.0.0.1:5188/?debug&skipintro&q=low'); await page.waitForFunction(() => document.body.dataset.state === 'title', null, { timeout: 90000 });
+await page.click('#press'); await page.evaluate(() => window.__t.startRun(0)); await page.waitForFunction(() => window.__t.state === 'playing', null, { timeout: 60000 });
+console.log('playing');
+await page.evaluate(() => { window.__t.settle(); window.__t.player.place(0, -5.5, 0); });
+await page.waitForTimeout(2500);
+console.log(await page.evaluate(() => { const t = window.__t, c = t.gfx.camera; return JSON.stringify({ rot: [c.rotation.x, c.rotation.y, c.rotation.z, c.rotation.order], pos: c.position.toArray(), pitch: t.player.pitch, yaw: t.player.yaw, roll: t.player.roll, lo: [t.player.lookOffset.pitch, t.player.lookOffset.yaw, t.player.lookOffset.roll, t.player.lookOffset.y], bob: t.player.bobAmp, quat: c.quaternion.toArray() }); }));
+await browser.close();
