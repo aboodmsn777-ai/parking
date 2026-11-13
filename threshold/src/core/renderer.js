@@ -7,8 +7,8 @@ import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
 export const TIERS = {
-  low: { scale: 0.7, maxDpr: 1, bloom: false, shadows: false, samples: 0 },
-  medium: { scale: 1, maxDpr: 1.25, bloom: true, shadows: false, samples: 0 },
+  low: { scale: 0.62, maxDpr: 1.5, bloom: false, shadows: false, samples: 0 },
+  medium: { scale: 1, maxDpr: 1.4, bloom: true, shadows: false, samples: 0 },
   high: { scale: 1, maxDpr: 1.75, bloom: true, shadows: true, samples: 4 },
 };
 const FilmShader = {

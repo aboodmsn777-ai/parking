@@ -15,13 +15,13 @@ export class Director {
   get discovered() { return this.save.data.discovered; }
   get allFound() { return ANOMALIES.every((a) => this.discovered.includes(a.id)); }
   begin(threshold = 0) {
-    this.threshold = threshold; this.first = threshold === 0; this.normals = 0; this.recent = []; this.busy = false; this.stats = { loops: 0, resets: 0, time: 0 };
+    this.threshold = threshold; this.first = false; this.normals = 1; this.recent = []; this.busy = false; this.stats = { loops: 0, resets: 0, time: 0 };
     this.setLoop(null); this.spawn();
   }
   spawn() { this.player.place(ENTRY.x + 1.2, ENTRY.z, -Math.PI / 2); this.armed = false; }
   pick() {
     if (this.threshold >= GOAL) return null;
-    if (this.first) { this.first = false; return null; }
+    if (this.first) { this.first = false; this.normals = 1; return null; }
     if (this.normals < 2 && Math.random() < 0.33) { this.normals++; return null; }
     this.normals = 0;
     const pool = ANOMALIES.filter((a) => !this.recent.includes(a.id) && (a.tier !== 'horror' || this.threshold >= 4));

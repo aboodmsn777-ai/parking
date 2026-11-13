@@ -10,6 +10,9 @@ export class Input {
     document.addEventListener('pointerlockchange', () => { this.lockAt = performance.now(); this.dx = this.dy = 0; });
     // browsers can report one huge delta right after the lock engages: ignore a short window and clamp spikes
     document.addEventListener('mousemove', (e) => { if (document.pointerLockElement === canvas && this.enabled && performance.now() - this.lockAt > 180) { this.dx += cl(e.movementX); this.dy += cl(e.movementY); } });
+    // fallback when pointer lock is refused (e.g. sandboxed iframes): hold the mouse button and drag to look
+    let drag = false; canvas.addEventListener('mousedown', () => { drag = true; }); addEventListener('mouseup', () => { drag = false; });
+    document.addEventListener('mousemove', (e) => { if (drag && this.enabled && document.pointerLockElement !== canvas) { this.dx += cl(e.movementX) * 1.6; this.dy += cl(e.movementY) * 1.6; } });
     this.stick = { id: null, ox: 0, oy: 0, x: 0, y: 0 }; this.look = { id: null, x: 0, y: 0 };
     const base = touchLayer.querySelector('.stick-base'), knob = touchLayer.querySelector('.stick-knob');
     const R = 56, show = (v) => { base.style.opacity = knob.style.opacity = v ? 1 : 0; };

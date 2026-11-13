@@ -69,7 +69,8 @@ function toMenu() {
   gsap.to(film().uFlash, { value: 0, duration: 1.2 }); gsap.to(film().uFade, { value: 1, duration: 1.5 }); ui.show('menu');
 }
 function startRun(threshold) {
-  if (state !== 'menu') return; setState('intro'); setMusic(false); ui.show(null);
+  if (state !== 'menu') return;
+  if (input.isTouch) { try { document.documentElement.requestFullscreen?.({ navigationUI: 'hide' })?.catch?.(() => {}); } catch { /* optional */ } } setState('intro'); setMusic(false); ui.show(null);
   gsap.to(film().uFade, { value: 0, duration: 0.9, onComplete: () => {
     director.begin(threshold);
     const wake = () => {
