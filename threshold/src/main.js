@@ -74,7 +74,7 @@ function startRun(threshold) {
   gsap.to(film().uFade, { value: 0, duration: 0.9, onComplete: () => {
     director.begin(threshold);
     const wake = () => {
-      ui.show(null); setState('playing'); audio.fadeGroup('amb', 1, 1.5); lock();
+      ui.show(null); setState('playing'); audio.fadeGroup('amb', 1, 1.5); lock(); audio.play('door', { vol: 0.55, lowpass: 1400, delay: 0.5, pos: { x: -22, y: 1.5, z: 9 }, ref: 9 });
       Object.assign(player.lookOffset, { pitch: -1.05, roll: 0.42, y: -1.0, yaw: 0.3 });
       gsap.to(player.lookOffset, { pitch: 0, roll: 0, y: 0, yaw: 0, duration: 3.6, ease: 'power2.inOut' });
       gsap.timeline().to(film().uFade, { value: 0.7, duration: 0.7 }).to(film().uFade, { value: 0.05, duration: 0.35 }).to(film().uFade, { value: 1, duration: 1.6, ease: 'power1.out' });
@@ -151,7 +151,7 @@ function frame(now) {
   time += dt; watchFps(raw);
   if (state === 'playing') {
     const look = input.poll(); player.update(dt, input, look, world); director.update(dt);
-    trainT -= dt; if (trainT < 0) { trainT = 45 + Math.random() * 70; audio.play('train', { group: 'amb', vol: 0.6, lowpass: 500 }); }
+    trainT -= dt; if (trainT < 0) { trainT = 45 + Math.random() * 70; if (Math.random() < 0.3) audio.play('door', { group: 'amb', vol: 0.5, lowpass: 1100, pos: { x: player.pos.x + 14, y: 1.5, z: player.pos.z + 22 }, ref: 9 }); else audio.play('train', { group: 'amb', vol: 0.6, lowpass: 500 }); }
   } else if (state === 'menu' || state === 'title' || state === 'loading') {
     gfx.camera.position.set(0.25 + Math.sin(time * 0.11) * 0.2, 1.5 + Math.sin(time * 0.23) * 0.02, -5.6 - (Math.sin(time * 0.05) * 0.5 + 0.5) * 2.2);
     gfx.camera.rotation.set(Math.sin(time * 0.17) * 0.012 - 0.01, Math.sin(time * 0.09) * 0.05, Math.sin(time * 0.13) * 0.006);

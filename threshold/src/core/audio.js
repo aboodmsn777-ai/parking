@@ -37,6 +37,7 @@ export class AudioMgr {
   play(id, o = {}) {
     const c = this.ctx, b = this.buffers[id]; if (!c || !b) return null;
     const src = c.createBufferSource(); src.buffer = b; src.loop = !!o.loop; src.playbackRate.value = o.rate || 1;
+    if (o.loop && b.duration > 1) { src.loopStart = 0.03; src.loopEnd = b.duration - 0.06; }   // skip mp3 encoder padding so loops stay seamless
     const gain = c.createGain(); gain.gain.value = o.vol ?? 1; let node = src;
     if (o.lowpass) { const f = c.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = o.lowpass; node.connect(f); node = f; }
     node.connect(gain); let pan = null;

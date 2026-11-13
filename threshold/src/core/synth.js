@@ -1,4 +1,4 @@
-// Procedural fallback sounds, rendered once into AudioBuffers. Any id that has a real file
+// Procedural fallback sounds, rendered lazily into AudioBuffers. Any id that has a real file
 // listed in public/audio/manifest.json is loaded from disk instead and never synthesised.
 const SR = 44100;
 function buf(ctx, sec, fn, ch = 1) {
