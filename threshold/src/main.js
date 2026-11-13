@@ -125,7 +125,9 @@ async function boot() {
   world = buildWorld(gfx.scene, { shadows: true }); ui.progress(0.45); await tick();
   player = new Player(gfx.camera); player.sens = save.data.settings.sens;
   player.onStep = (k) => audio.play('step' + (1 + ((Math.random() * 4) | 0)), { vol: 0.22 + 0.2 * k, rate: 0.94 + Math.random() * 0.12 });
-  director = new Director({ world, player, audio, save, hooks }); director.setLoop(null); save.data.inRun = save.data.threshold > 0; 
+  director = new Director({ world, player, audio, save, hooks });
+  { const keep = { th: save.data.threshold, run: save.data.inRun }; director.threshold = keep.run ? keep.th : 0; director.setLoop(null); save.data.threshold = keep.th; save.data.inRun = keep.run; save.write(); }
+  
   applyQuality(); world.bakeEnv(gfx.renderer); ui.progress(0.6); await tick();
   gfx.camera.position.set(0, 1.5, -6); gfx.renderer.compile(gfx.scene, gfx.camera); gfx.render(0);
   await audio.init((p) => ui.progress(0.6 + p * 0.4));

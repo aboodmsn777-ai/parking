@@ -98,7 +98,7 @@ function drawMap(ctx, w, h) {
 function drawExit(ctx, w, h, wrong) {
   ctx.fillStyle = '#0b7a3b'; ctx.fillRect(0, 0, w, h);
   ctx.save(); if (wrong) { ctx.translate(w, 0); ctx.scale(-1, 1); }
-  text(ctx, 'مخرج', w * 0.3, h * 0.72, h * 0.62, '#f4fff4', { weight: 700 }); text(ctx, 'EXIT', w * 0.63, h * 0.7, h * 0.5, '#f4fff4', { weight: 700, spacing: 4 });
+  text(ctx, 'مخرج', w * 0.21, h * 0.7, h * 0.54, '#f4fff4', { weight: 700 }); ctx.fillStyle = 'rgba(244,255,244,.6)'; ctx.fillRect(w * 0.4, h * 0.22, 3, h * 0.56); text(ctx, 'EXIT', w * 0.58, h * 0.68, h * 0.44, '#f4fff4', { weight: 700, spacing: 4 });
   ctx.fillStyle = '#f4fff4'; const ax = w * 0.87, ay = h / 2; ctx.beginPath(); ctx.moveTo(ax + 34, ay); ctx.lineTo(ax, ay - 30); ctx.lineTo(ax, ay - 11); ctx.lineTo(ax - 36, ay - 11); ctx.lineTo(ax - 36, ay + 11); ctx.lineTo(ax, ay + 11); ctx.lineTo(ax, ay + 30); ctx.fill();
   ctx.restore();
 }
@@ -259,7 +259,7 @@ export function buildProps(world) {
     const glassM = new S({ color: 0x06090b, roughness: 0.06, metalness: 0.7, envMapIntensity: 2.2, stencilWrite: true, stencilRef: 1, stencilFunc: THREE.AlwaysStencilFunc, stencilZPass: THREE.ReplaceStencilOp });
     const glass = new THREE.Mesh(new THREE.PlaneGeometry(KW, 1.32), glassM); glass.position.set(0, 1.68, 0.06); glass.renderOrder = 1; kiosk.add(glass);
     const closed = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.19), new S({ map: panel(256, 96, (c, w, h) => drawPlate(c, w, h, 'مغلق', 'CLOSED', '#a3261c', '#f4ead2')), roughness: 0.5 })); closed.position.set(-0.7, 1.25, 0.066); kiosk.add(closed);
-    const hands = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 1.1), new THREE.MeshBasicMaterial({ map: panel(512, 432, drawHands), transparent: true, opacity: 0.8, depthWrite: false })); hands.position.set(0.66, 1.66, 0.064); hands.visible = false; hands.renderOrder = 3; kiosk.add(hands);
+    const hands = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 1.1), new THREE.MeshBasicMaterial({ map: panel(512, 432, drawHands), transparent: true, opacity: 0.34, depthWrite: false })); hands.position.set(0.66, 1.66, 0.064); hands.visible = false; hands.renderOrder = 3; kiosk.add(hands);
     mount(R, kiosk, 'W', -33.5); props.hands = hands;
     // reflection
     const GX = -HW + 0.06, KZ = -33.5;

@@ -4,7 +4,7 @@ const a = process.argv.slice(2), name = a[0], get = (k) => { const i = a.indexOf
 const mobile = a.includes('--mobile'), js = get('--js'), wait = +(get('--wait') || 1500), url = get('--url') || 'http://127.0.0.1:5188/?debug&q=' + (get('--q') || 'high') + '&skipintro';
 const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] });
 const ctx = await browser.newContext(mobile ? { ...devices['iPhone 13 landscape'] } : { viewport: { width: +(get('--w') || 960), height: +(get('--h') || 540) }, deviceScaleFactor: 1 });
-const page = await ctx.newPage(); if (!mobile) await page.addInitScript(() => { Element.prototype.requestPointerLock = () => Promise.resolve(); }); const errs = [];
+const page = await ctx.newPage(); if (get('--lang')) await page.addInitScript((l) => { localStorage.setItem('threshold.save.v1', JSON.stringify({ settings: { lang: l, quality: 'auto', volume: 0.8, sens: 1 }, discovered: ['red-lights', 'runner', 'poster-eyes', 'bin-missing'], threshold: 3, inRun: true })); }, get('--lang')); if (!mobile) await page.addInitScript(() => { Element.prototype.requestPointerLock = () => Promise.resolve(); }); const errs = [];
 page.on('console', (m) => { if (['error', 'warning'].includes(m.type())) errs.push(`[${m.type()}] ${m.text()}`); });
 page.on('pageerror', (e) => errs.push('[pageerror] ' + e.message));
 await page.goto(url); await page.waitForFunction(() => document.body.dataset.state === 'title', null, { timeout: 90000 });

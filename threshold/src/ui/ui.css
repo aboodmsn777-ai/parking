@@ -3,7 +3,7 @@
 html,body { height:100%; background:var(--bg); color:var(--ink); font-family:var(--font); overflow:hidden; overscroll-behavior:none; user-select:none; -webkit-user-select:none; touch-action:none; }
 button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
 #view { position:fixed; inset:0; width:100%; height:100%; display:block; }
-#veil { position:fixed; inset:0; pointer-events:none; opacity:0; background:radial-gradient(120% 90% at 50% 40%, rgba(5,7,8,.25), rgba(5,7,8,.9)); transition:opacity .9s ease; }
+#veil { position:fixed; inset:0; pointer-events:none; opacity:0; background:radial-gradient(120% 90% at 50% 40%, rgba(5,7,8,.45), rgba(5,7,8,.93)); transition:opacity .9s ease; }
 body[data-state=menu] #veil, body[data-state=title] #veil, body[data-state=paused] #veil { opacity:1; }
 .screen { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:max(24px,env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left)); opacity:0; visibility:hidden; pointer-events:none; }
 .screen.on { visibility:visible; pointer-events:auto; }
@@ -13,6 +13,8 @@ body[data-state=menu] #veil, body[data-state=title] #veil, body[data-state=pause
 .brand span { font-size:clamp(44px,9vw,84px); }
 .brand small { font-family:var(--font); font-size:clamp(11px,1.6vw,15px); font-weight:400; letter-spacing:.62em; margin-inline-end:-.62em; margin-top:14px; color:var(--dim); direction:ltr; }
 .brand.big span { font-size:clamp(72px,17vw,190px); text-shadow:0 0 60px rgba(210,236,226,.18); }
+.brand.big small { margin-top:.9em; font-size:clamp(12px,1.8vw,18px); color:#c5ccc8; }
+#menu .brand small { margin-top:26px; }
 .mark { width:68px; height:68px; fill:none; stroke-linecap:square; }
 .mark .frame { stroke:var(--amber); stroke-width:2.5; } .mark .sill { stroke:var(--ink); stroke-width:2.5; }
 .mark .slit { stroke:#dff3ea; stroke-width:1.5; animation:slit 2.6s ease-in-out infinite; }
